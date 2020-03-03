@@ -7,6 +7,9 @@ import handleMetadata from "./metadata";
  * @param {*} files DataTransfer object's FileList
  */
 const handleFilesDropped = (files) => (dispatch, getState) => {
+  console.log(files);
+  console.log('files.type');
+  console.log(files[0].type);
 
   if (files.length !== 1) {
     return dispatch(warningNotification({
@@ -17,6 +20,7 @@ const handleFilesDropped = (files) => (dispatch, getState) => {
 
   const file = files[0];
   if (file.type === "text/csv" || file.type === "text/tab-separated-values") {
+    console.log('text or csv');
     return handleMetadata(dispatch, getState, file);
   }
 
