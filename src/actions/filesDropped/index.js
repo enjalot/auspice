@@ -19,7 +19,8 @@ const handleFilesDropped = (files) => (dispatch, getState) => {
   }
 
   const file = files[0];
-  if (file.type === "text/csv" || file.type === "text/tab-separated-values") {
+  const accepted_file_types = ["text/csv", "text/tab-separated-values", "application/vnd.ms-excel"];
+  if (accepted_file_types.includes(file.type)) {
     console.log('text or csv');
     return handleMetadata(dispatch, getState, file);
   }
