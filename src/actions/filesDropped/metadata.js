@@ -25,7 +25,7 @@ const parseCsv = (file) => new Promise((resolve, reject) => {
     },
     encoding: "UTF-8",
     comments: "#",
-    delimiter: file.type === "text/csv" ? "," : "\t",
+    delimiter: (file.type === "text/csv" || file.type === 'application/vnd.ms-excel') ? "," : "\t",
     skipEmptyLines: true,
     dynamicTyping: false
   });
