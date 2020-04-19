@@ -3,6 +3,7 @@ import metadata from "./metadata";
 import tree from "./tree";
 import frequencies from "./frequencies";
 import entropy from "./entropy";
+import timeline from "./timeline";
 import controls from "./controls";
 import browserDimensions from "./browserDimensions";
 import notifications from "./notifications";
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   frequencies,
   controls,
   entropy,
+  timeline,
   browserDimensions,
   notifications,
   narrative,

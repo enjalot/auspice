@@ -10,6 +10,7 @@ import { countTraitsAcrossTree, calcTotalTipsInTree } from "../util/treeCounting
 import { calcEntropyInView } from "../util/entropy";
 import { treeJsonToState } from "../util/treeJsonProcessing";
 import { entropyCreateState } from "../util/entropyCreateStateFromJsons";
+import { timelineCreateState } from "../util/timelineCreateStateFromJsons";
 import { determineColorByGenotypeMutType, calcNodeColor } from "../util/colorHelpers";
 import { calcColorScale } from "../util/colorScale";
 import { computeMatrixFromRawData } from "../util/processFrequencies";
@@ -659,7 +660,7 @@ export const createStateFromQueryOrJSONs = ({
   query,
   dispatch
 }) => {
-  let tree, treeToo, entropy, controls, metadata, narrative, frequencies;
+  let tree, treeToo, entropy, timeline, controls, metadata, narrative, frequencies;
   /* first task is to create metadata, entropy, controls & tree partial state */
   if (json) {
     /* create metadata state */
@@ -678,6 +679,8 @@ export const createStateFromQueryOrJSONs = ({
       /* TODO: calc & display num tips in 2nd tree */
       // metadata.secondTreeNumTips = calcTotalTipsInTree(treeToo.nodes);
     }
+    /* timeline state */
+    timeline = timelineCreateState(json.tree, json.meta);
 
     /* new controls state - don't apply query yet (or error check!) */
     controls = getDefaultControlsState();
@@ -689,6 +692,7 @@ export const createStateFromQueryOrJSONs = ({
     /* revisit this - but it helps prevent bugs */
     controls = {...oldState.controls};
     entropy = {...oldState.entropy};
+    timeline = {...oldState.timeline};
     tree = {...oldState.tree};
     treeToo = {...oldState.treeToo};
     metadata = {...oldState.metadata};
@@ -773,6 +777,9 @@ export const createStateFromQueryOrJSONs = ({
     entropy.zoomMin = controls["zoomMin"];
     entropy.zoomCoordinates = [controls["zoomMin"], controls["zoomMax"]];
   }
+  if(timeline.loaded) {
+    // timeline.series = 
+  }
 
   /* update frequencies if they exist (not done for new JSONs) */
   if (frequencies && frequencies.loaded) {
@@ -787,7 +794,7 @@ export const createStateFromQueryOrJSONs = ({
     );
   }
 
-  return {tree, treeToo, metadata, entropy, controls, narrative, frequencies, query};
+  return {tree, treeToo, metadata, entropy, timeline, controls, narrative, frequencies, query};
 };
 
 export const createTreeTooState = ({

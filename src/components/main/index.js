@@ -6,6 +6,7 @@ import SidebarToggle from "../framework/sidebar-toggle";
 import Info from "../info/info";
 import Tree from "../tree";
 import Map from "../map/map";
+import Timeline from "../timeline";
 import { controlsHiddenWidth } from "../../util/globals";
 import Footer from "../framework/footer";
 import DownloadModal from "../download/downloadModal";
@@ -142,6 +143,13 @@ class Main extends React.Component {
           {this.props.displayNarrative || this.props.showOnlyPanels ? null : <Info width={calcUsableWidth(availableWidth, 1)} />}
           {this.props.panelsToDisplay.includes("tree") ? <Tree width={big.width} height={big.height} /> : null}
           {this.props.panelsToDisplay.includes("map") ? <Map width={big.width} height={big.height} justGotNewDatasetRenderNewMap={false} legend={this.shouldShowMapLegend()} /> : null}
+
+          {this.props.panelsToDisplay.includes("entropy") ?
+            (<Suspense fallback={null}>
+              <Timeline width={chart.width} height={200} />
+            </Suspense>) :
+            null
+          } 
           {this.props.panelsToDisplay.includes("entropy") ?
             (<Suspense fallback={null}>
               <Entropy width={chart.width} height={chart.height} />
